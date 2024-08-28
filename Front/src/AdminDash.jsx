@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Adduser from './Adduser';
 import AdminPasswordReset from './AdminPasswordReset';
+import Header from './Header';
 
 const userName=window.localStorage.getItem("name");
 
@@ -81,9 +82,11 @@ const [query, setQuery]=useState([]);
       }, [refresh]);
 
   return (
+    <>
+    <Header/>
     <div className="dashboard-container">
       <sidebar className="sidebar">
-        <div className="logo">Admin Dashboard</div>
+        {/* <div className="logo">Admin Dashboard</div> */}
         <nav>
           <ul>
             <li 
@@ -285,6 +288,7 @@ const [query, setQuery]=useState([]);
         
       </main>
     </div>
+    </>
   );
 };
 

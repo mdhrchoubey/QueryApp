@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './TeacherDash.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Header from '../Header';
 
 const userName=window.localStorage.getItem("name");
 
@@ -11,16 +12,6 @@ const TeacherDash = () => {
   const [teacherList, setTeacherList]=useState([])
   const[taskData,setTaskData]=useState([]); 
   const [refresh, setRefresh] = useState(false);
-
-
-
-  const navigate = useNavigate();
-
-
-  const Logout=()=>{
-    window.localStorage.clear();
-    navigate("/")
-  }
 
   const Display=()=>{
     let url="http://localhost:8080/user/displayStudent";
@@ -67,9 +58,11 @@ const [query, setQuery]=useState([]);
 
 
   return (
+    <>
+    <Header/>
     <div className="dashboard-container">
       <sidebar className="sidebar">
-        <div className="logo">Student Dashboard</div>
+        {/* <div className="logo">Student Dashboard</div> */}
         <nav>
           <ul>
             <li 
@@ -94,7 +87,7 @@ const [query, setQuery]=useState([]);
               <span>Query</span>
             </li>
             <li>
-            <button onClick={Logout}>Logout</button>
+            {/* <button onClick={Logout}>Logout</button> */}
             </li>
           </ul>
         </nav>
@@ -196,6 +189,7 @@ const [query, setQuery]=useState([]);
         
       </main>
     </div>
+    </>
   );
 };
 

@@ -7,6 +7,8 @@ import TeacherDash from './Component/TeacherDash'
 import AdminDash from './AdminDash'
 import ForgetPassword from './Login/ForgetPassword'
 import ForgetAdmin from './Login/ForgetAdmin'
+// import MainHeadr from './MainHeader'
+// import Header from './Header'
 
 const App=()=> {
 
@@ -14,8 +16,10 @@ const App=()=> {
   return (
     
     <>
+    {/* <MainHeadr/> */}
     <BrowserRouter>
     <Routes>
+      
       <Route path='/' element={<Landing/>}>
       <Route index element={<Landing/>}/>
       </Route>
@@ -29,6 +33,7 @@ const App=()=> {
       <Route path='forgetpassword' element={<ForgetPassword/>}/>
     </Routes>
     </BrowserRouter>
+    {/* <Header/> */}
    
 
     </>

@@ -3,6 +3,7 @@ import './StudentDashboard.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Profile from './Profile';
+import Header from '../Header';
 
 const userName=window.localStorage.getItem("name");
 
@@ -15,13 +16,6 @@ const StudentDashboard = () => {
   const [refresh, setRefresh] = useState(false);
 
 
-  const navigate = useNavigate();
-
-
-  const Logout=()=>{
-    window.localStorage.clear();
-    navigate("/")
-  }
 
   const Display=()=>{
     let url="http://localhost:8080/user/displayTeacher";
@@ -89,9 +83,11 @@ useEffect(() => {
 }, [refresh]);
 
   return (
+    <>
+    <Header/>
     <div className="dashboard-container">
       <sidebar className="sidebar">
-        <div className="logo">Student Dashboard</div>
+        {/* <div className="logo">Student Dashboard</div> */}
         <nav>
           <ul>
             <li 
@@ -123,7 +119,7 @@ useEffect(() => {
               <span>Query Update</span>
             </li>
             <li>
-            <button onClick={Logout}>Logout</button>
+            
             </li>
           </ul>
         </nav>
@@ -257,6 +253,7 @@ useEffect(() => {
         
       </main>
     </div>
+    </>
   );
 };
 

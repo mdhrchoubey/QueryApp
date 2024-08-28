@@ -55,7 +55,7 @@ const Mainlogin=()=>{
             // login successful
             alert("done")
             navigate("/teacherDash");
-            window.localStorage.setItem('name', response.data.name);
+            window.localStorage.setItem('name', email);
             // window.localStorage.setItem('userId', response.data._id);
             
           }

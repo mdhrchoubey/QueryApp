@@ -1,12 +1,21 @@
 import StudentDashboard from "./Component/StudentDash"
 import Mainlogin from "./Login/MainLogin"
+import MainHeadr from "./MainHeader"
+import MiddelPart from "./MiddelPart"
+import './index.css'
+
 
 const Landing=()=>{
     return(
         <>
-        <Mainlogin/>
+        <div ></div>
+        <MainHeadr/>
+        <hr/>
+        
+        <MiddelPart/>
+        
 
-        {/* <StudentDashboard/> */}
+        
         </>
     )
 }
