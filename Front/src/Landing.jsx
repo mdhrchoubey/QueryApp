@@ -2,6 +2,7 @@ import StudentDashboard from "./Component/StudentDash"
 import Mainlogin from "./Login/MainLogin"
 import MainHeadr from "./MainHeader"
 import MiddelPart from "./MiddelPart"
+import SecondPart from "./SecondComponent"
 import './index.css'
 
 
@@ -13,7 +14,8 @@ const Landing=()=>{
         <hr/>
         
         <MiddelPart/>
-        
+        <hr/>
+        <SecondPart/>
 
         
         </>
