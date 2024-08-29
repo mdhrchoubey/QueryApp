@@ -16,6 +16,44 @@ const TeacherDash = () => {
   const[taskData,setTaskData]=useState([]); 
   const [refresh, setRefresh] = useState(false);
 
+  const [replyModal, setReplyModal] = useState(false);
+const [replyText, setReplyText] = useState("");
+const [selectedQuery, setSelectedQuery] = useState({});
+
+const handleReply = (query) => {
+  console.log(query)
+  setSelectedQuery(query);
+  setReplyModal(true);
+};
+
+const handleReplySubmit = async (id, status) => {
+
+  try {
+    const replyData = {
+      queryId: selectedQuery._id,
+      reply: replyText,
+    };
+    console.log(replyData)
+    const response = await axios.post("http://localhost:8080/query/reply", replyData);
+    
+    console.log(response.data);
+    setReplyModal(false);
+    setReplyText("");
+    displayQuery();
+  } catch (error) {
+    console.error(error);
+  }
+  try {
+        const newStatus = status === 'pending' ? 'completed': 'pending';
+        const updatedTodo = await axios.put(`http://localhost:8080/query/Display/${id}`, { status: newStatus });
+        setTaskData(taskData.map(todo => (todo._id === id ? updatedTodo.data : todo)));
+      } catch (error) {
+        console.error(error);
+      }
+};
+
+
+
   const Display=()=>{
     let url="http://localhost:8080/user/displayStudent";
     axios.get(url).then((res)=>{
@@ -41,15 +79,15 @@ const [query, setQuery]=useState([]);
         displayQuery();
       }, []);
 
-      const handleToggleStatus = async (id, status) => {
-        try {
-          const newStatus = status === 'pending' ? 'completed': 'pending';
-          const updatedTodo = await axios.put(`http://localhost:8080/query/Display/${id}`, { status: newStatus });
-          setTaskData(taskData.map(todo => (todo._id === id ? updatedTodo.data : todo)));
-        } catch (error) {
-          console.error(error);
-        }
-      };
+      // const handleToggleStatus = async (id, status) => {
+      //   try {
+      //     const newStatus = status === 'pending' ? 'completed': 'pending';
+      //     const updatedTodo = await axios.put(`http://localhost:8080/query/Display/${id}`, { status: newStatus });
+      //     setTaskData(taskData.map(todo => (todo._id === id ? updatedTodo.data : todo)));
+      //   } catch (error) {
+      //     console.error(error);
+      //   }
+      // };
 
       const handleClick = () => {
         setRefresh(!refresh);
@@ -127,7 +165,7 @@ const [query, setQuery]=useState([]);
       {/* <th className="table-header">Receiver</th> */}
       <th className="table-header">Rply</th>
       <th className="table-header">Pending/Completed</th>
-      <th className="table-header">Status</th>
+      {/* <th className="table-header">Status</th> */}
       
     </tr>
   </thead>
@@ -138,9 +176,10 @@ const [query, setQuery]=useState([]);
         <td className="table-cell">{key.sender}</td>
         {/* <td className="table-cell">{key.receiver}</td> */}
         <td className="table-cell">
-          <button className="reply-button">Reply</button>
-        </td>
-
+  <button className="reply-button" onClick={() => handleReply(key,key._id, key.status)}>
+    Reply
+  </button>
+</td>
         {key.status === "pending" && (
           <td className="table-cell">
             <a>
@@ -165,7 +204,7 @@ const [query, setQuery]=useState([]);
             </a>
           </td>
         )}
-        <td className="table-cell">
+        {/* <td className="table-cell">
           <button
             onClick={() => handleToggleStatus(key._id, key.status)}
             className="status-button"
@@ -182,7 +221,7 @@ const [query, setQuery]=useState([]);
               <span className="button__text">Status</span>
             </div>
           </button>
-        </td>
+        </td> */}
 
         
       </tr>
@@ -192,8 +231,23 @@ const [query, setQuery]=useState([]);
           </div>
           
         )}
+
+
         
       </main>
+      {replyModal && (
+  <div className="reply-modal">
+    <h2>Reply to Query</h2>
+    <textarea style={{width:"200px", height:"50px"}}
+      value={replyText}
+      onChange={(e) => setReplyText(e.target.value)}
+      placeholder="Type your reply here..."
+    />
+    <button className="reply-submit" onClick={handleReplySubmit}>
+      Submit Reply
+    </button>
+  </div>
+)}
     </div>
     <Footer/>
     </>

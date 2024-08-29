@@ -13,5 +13,8 @@ router.get("/displayQuery",queryControl.displayQuery)
 //Staus
 router.put('/display/:id', queryControl.statusdisplay);
 
+//Rply
+router.post('/reply', queryControl.reply);
+
 
 module.exports = router;

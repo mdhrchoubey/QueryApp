@@ -164,7 +164,7 @@ useEffect(() => {
         </select>
         <div className="popup">
   <h2>Send Message</h2>
-  <textarea
+  <textarea style={{width:"300px", height:"100px"}}
     placeholder="Type your message here..."
   />
  <button onClick={() => sendMessage(document.getElementById("Display").value, document.querySelector("textarea").value)}>Send</button>

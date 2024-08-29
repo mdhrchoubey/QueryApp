@@ -10,10 +10,6 @@ app.use(bodyParser.json());
 app.use(cors());
 
 
-
-  app.post('/api/forget-password', )
-
-
 const userRoute=require("./Routes/UserRoute")
 app.use("/user", userRoute)
 
