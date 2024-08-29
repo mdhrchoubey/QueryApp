@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import ForgetPassword from '../Login/ForgetPassword';
+import ForgetPassword from './Login/ForgetPassword';
 
-const Profile = () => {
+
+const TeacherProfile = () => {
   const userName = window.localStorage.getItem("name");
   const [profile, setProfile] = useState({});
   const [message, setMessage] = useState('');
@@ -68,7 +69,7 @@ const Profile = () => {
     return <div>Loading...</div>;
   }
 
-
+ 
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
@@ -131,7 +132,7 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default TeacherProfile;
 
 
 

@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import axios from 'axios';
 // import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import LoginHeader from './LoginHeader';
+import Footer from '../Component/Footer';
 
 const SignupForm = () => {
 
@@ -47,6 +49,9 @@ const SignupForm = () => {
   };
 
   return (
+    <>
+    <LoginHeader/>
+    <hr/>
     <div className="signup-container">
       <div className="welcome-section">
         <h1>Welcome Back!</h1>
@@ -62,6 +67,8 @@ const SignupForm = () => {
         </div>
         <p>or use your email for registration</p>
         <form onSubmit={handleSubmit}>
+          
+          
           <input
             type="text"
             name="name"
@@ -98,6 +105,8 @@ const SignupForm = () => {
         </form>
       </div>
     </div>
+    <Footer/>
+    </>
   );
 };
 

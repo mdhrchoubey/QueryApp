@@ -172,6 +172,7 @@ button {
   font-family: Arial, sans-serif;
   width: 100%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
 }
 
 .top-header {
@@ -186,12 +187,18 @@ button {
   width: 80px;
   height: 80px;
   margin-right: 1rem;
+  margin-left: 30px;
+}
+.university-info{
+  /* border: 2px solid black; */
+  margin-left: 30%;
 }
 
 .university-info h1 {
   font-size: 1.5rem;
   color: #2563eb;
   margin: 0 0 0.5rem 0;
+  
 }
 
 .university-info p {

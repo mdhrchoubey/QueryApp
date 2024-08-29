@@ -2,6 +2,9 @@ import '../App.css'
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import Header from '../Header';
+import LoginHeader from './LoginHeader';
+import Footer from '../Component/Footer';
 
 const userName=window.localStorage.getItem("name");
 const Mainlogin=()=>{
@@ -39,15 +42,23 @@ const Mainlogin=()=>{
           const response = await axios.post("http://localhost:8080/user/login", {
             email,
             password,
-            role
+            role,
           });
           
           if (role==="student"){
             // login successful
             alert("done")
             navigate("/studentDash");
-            window.localStorage.setItem('name', email);
-            // window.localStorage.setItem('_id',_id );
+            window.localStorage.setItem('name', response.data.name);
+
+            // console.log(email, role, password, response.data.name)
+            
+            // window.localStorage.setItem('id', response.data._id);
+            window.localStorage.setItem("email", response.data.email)
+            window.localStorage.setItem("role", response.data.role)
+            window.localStorage.setItem("gender", response.data.gender)
+            localStorage.setItem('token', response.data.token);
+            // window.localStorage.setItem('id',response.data._id );
           } 
           if (role==="teacher"){
 
@@ -55,8 +66,13 @@ const Mainlogin=()=>{
             // login successful
             alert("done")
             navigate("/teacherDash");
-            window.localStorage.setItem('name', email);
-            // window.localStorage.setItem('userId', response.data._id);
+            // window.localStorage.setItem('name', response.data.username);
+            // window.localStorage.setItem('id', response.data._id);
+            window.localStorage.setItem('name', response.data.name);
+            window.localStorage.setItem("email", response.data.email)
+            window.localStorage.setItem("role", response.data.role)
+            window.localStorage.setItem("gender", response.data.gender)
+            localStorage.setItem('token', response.data.token);
             
           }
          
@@ -72,6 +88,8 @@ const Mainlogin=()=>{
     
     return(
         <>
+        <LoginHeader/>
+        <hr/>
         <div className="container">
     <div className="left-side">
       <h1>Sign in</h1>
@@ -112,11 +130,13 @@ const Mainlogin=()=>{
     </div>
     <div className="right-side">
       <h1>Hello, Students!</h1>
-      <p>Enter your personal details and start journey with us</p>
+      <br/>
+      <p style={{color:"black"}}>If Your are not Registerd Click on Signup</p>
+      <br/>
       <button><Link style={{color:"whitesmoke"}} to="/signup">Signup</Link></button>
     </div>
   </div>
-        
+        <Footer/>
         </>
     )
 }

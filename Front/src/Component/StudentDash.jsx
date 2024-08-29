@@ -4,8 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Profile from './Profile';
 import Header from '../Header';
+import Footer from './Footer';
 
 const userName=window.localStorage.getItem("name");
+// const image=window.localStorage.getItem("ImagePath")
 
 
 const StudentDashboard = () => {
@@ -14,6 +16,7 @@ const StudentDashboard = () => {
   const [query, setQuery]=useState([]);
   const[taskData,setTaskData]=useState([]); 
   const [refresh, setRefresh] = useState(false);
+  // const [previewImage, setPreviewImage]=useState(null)
 
 
 
@@ -82,6 +85,8 @@ useEffect(() => {
   displayQuery();
 }, [refresh]);
 
+
+
   return (
     <>
     <Header/>
@@ -129,6 +134,10 @@ useEffect(() => {
           <div className="profile-content">
             <h2>Student Profile</h2>
             {/* Add profile content here */}
+            {/* {image} */}
+            {/* {ans} */}<br/>
+            
+
             {userName}
             <Profile/>
           </div>
@@ -171,7 +180,15 @@ useEffect(() => {
         )}
         {activeTab === 'Query_Update' && (
           <div className="Query_Update">
+            <div style={{display:'flex', justifyContent:"space-around", width:"48%"}} >
             <h2>Query_Update</h2>
+            <h4 ><td className="table-cell">
+          <button onClick={handleClick} className="refresh-button">
+            Refresh
+          </button>
+        </td></h4>
+            </div>
+            
             
             <table className="table">
   <thead>
@@ -182,7 +199,7 @@ useEffect(() => {
       <th className="table-header">Rply</th>
       <th className="table-header">Pending/Completed</th>
       <th className="table-header">Status</th>
-      <th className="table-header">Refresh</th>
+      {/* <th className="table-header">Refresh</th> */}
     </tr>
   </thead>
   <tbody>
@@ -238,11 +255,7 @@ useEffect(() => {
           </button>
         </td>
 
-        <td className="table-cell">
-          <button onClick={handleClick} className="refresh-button">
-            Refresh
-          </button>
-        </td>
+        
       </tr>
     ))}
   </tbody>
@@ -253,6 +266,7 @@ useEffect(() => {
         
       </main>
     </div>
+    <Footer/>
     </>
   );
 };

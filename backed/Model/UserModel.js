@@ -5,11 +5,10 @@ const mongoose = require('mongoose');
 mongoose.userSchema = mongoose.Schema({
     email: { type: String, required: true },
     name:{type:String, required:true},
-    // standard:{type:String, required:true},
+    imagePath:{type:String},
     role: { type: String, enum: ['student', 'teacher'], required: true },
     gender:{type:String, gen:['male', 'female'], required:true, required:true},
     password: { type: String, required: true },
-    // sender: { type: mongoose.Schema.Types.ObjectId, ref: 'query' },
     resetPasswordToken: String,
   resetPasswordExpires: Date
 }); 

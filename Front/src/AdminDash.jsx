@@ -3,8 +3,9 @@ import './AdminDash.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Adduser from './Adduser';
-import AdminPasswordReset from './AdminPasswordReset';
+
 import Header from './Header';
+import Footer from './Component/Footer';
 
 const userName=window.localStorage.getItem("name");
 
@@ -118,15 +119,15 @@ const [query, setQuery]=useState([]);
               <i className="icon query-icon">📊</i>
               <span>Adduser</span>
             </li>
-            <li 
+            {/* <li 
               className={activeTab === 'password' ? 'active' : ''}
               onClick={() => setActiveTab('password')}
             >
               <i className="icon query-icon">📊</i>
               <span>Password</span>
-            </li>
+            </li> */}
             <li>
-            <button onClick={Logout}>Logout</button>
+            {/* <button onClick={Logout}>Logout</button> */}
             </li>
           </ul>
         </nav>
@@ -134,10 +135,13 @@ const [query, setQuery]=useState([]);
       <main className="main-content">
         {activeTab === 'profile' && (
           <div className="profile-content">
-            <h2>School Summery</h2>
+            <h2 style={{textAlign:"center", color:"red"}}>School Summery</h2>
+            <hr/>
             {/* Add profile content here */}
             {/* {userName} */}
-           <div> Student List
+           <div> <h2 style={{textAlign:"center"}}>
+           Student List
+           </h2>
             <table>
                 <thead>
                     <tr>
@@ -160,7 +164,9 @@ const [query, setQuery]=useState([]);
             </table>
            </div>
             <hr/>
-            <div>Teacher List
+            <div><h2 style={{textAlign:"center"}}>
+            Teacher List
+            </h2>
             <table>
                 <thead>
                     <tr>
@@ -192,7 +198,14 @@ const [query, setQuery]=useState([]);
         )}
         {activeTab === 'Query' && (
           <div className="Query-content">
-            <h2>Query</h2>
+            <div style={{display:'flex', justifyContent:"space-around", width:"48%"}} >
+            <h2>Query_Update</h2>
+            <h4 ><td className="table-cell">
+          <button onClick={handleClick} className="refresh-button">
+            Refresh
+          </button>
+        </td></h4>
+            </div>
             <table className="table">
   <thead>
     <tr>
@@ -202,7 +215,7 @@ const [query, setQuery]=useState([]);
       <th className="table-header">Rply</th>
       <th className="table-header">Pending/Completed</th>
       <th className="table-header">Status</th>
-      <th className="table-header">Refresh</th>
+      {/* <th className="table-header">Refresh</th> */}
     </tr>
   </thead>
   <tbody>
@@ -258,11 +271,11 @@ const [query, setQuery]=useState([]);
           </button>
         </td>
 
-        <td className="table-cell">
+        {/* <td className="table-cell">
           <button onClick={handleClick} className="refresh-button">
             Refresh
           </button>
-        </td>
+        </td> */}
       </tr>
     ))}
   </tbody>
@@ -278,16 +291,11 @@ const [query, setQuery]=useState([]);
           </div>
         )}
 
-{activeTab === 'password' && (
-          <div className="results-content">
-            <h2>Reset Password</h2>
-            {/* Add results content here */}
-            <AdminPasswordReset/>
-          </div>
-        )}
+        
         
       </main>
     </div>
+    <Footer/>
     </>
   );
 };

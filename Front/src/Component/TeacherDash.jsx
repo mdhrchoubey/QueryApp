@@ -3,6 +3,9 @@ import './TeacherDash.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Header from '../Header';
+import TeacherProfile from '../TeacherProfile';
+import TeacherHeader from '../TeacherHeader';
+import Footer from './Footer';
 
 const userName=window.localStorage.getItem("name");
 
@@ -59,7 +62,7 @@ const [query, setQuery]=useState([]);
 
   return (
     <>
-    <Header/>
+    <TeacherHeader/>
     <div className="dashboard-container">
       <sidebar className="sidebar">
         {/* <div className="logo">Student Dashboard</div> */}
@@ -95,9 +98,9 @@ const [query, setQuery]=useState([]);
       <main className="main-content">
         {activeTab === 'profile' && (
           <div className="profile-content">
-            <h2>Student Profile</h2>
-            {/* Add profile content here */}
-            {userName}
+            
+            
+            <TeacherProfile/>
           </div>
         )}
         {activeTab === 'results' && (
@@ -108,8 +111,15 @@ const [query, setQuery]=useState([]);
         )}
         {activeTab === 'Query' && (
           <div className="Query-content">
-            <h2>Query</h2>
-            <table className="table">
+            <div style={{display:'flex', justifyContent:"space-around", width:"48%"}} >
+            <h2>Query_Update</h2>
+            <h4 ><td className="table-cell">
+          <button onClick={handleClick} className="refresh-button">
+            Refresh
+          </button>
+        </td></h4>
+            </div>
+            <table className="table" style={{textAlign:"center"}}>
   <thead>
     <tr>
       <th className="table-header">Message</th>
@@ -118,7 +128,7 @@ const [query, setQuery]=useState([]);
       <th className="table-header">Rply</th>
       <th className="table-header">Pending/Completed</th>
       <th className="table-header">Status</th>
-      <th className="table-header">Refresh</th>
+      
     </tr>
   </thead>
   <tbody>
@@ -174,11 +184,7 @@ const [query, setQuery]=useState([]);
           </button>
         </td>
 
-        <td className="table-cell">
-          <button onClick={handleClick} className="refresh-button">
-            Refresh
-          </button>
-        </td>
+        
       </tr>
     ))}
   </tbody>
@@ -189,6 +195,7 @@ const [query, setQuery]=useState([]);
         
       </main>
     </div>
+    <Footer/>
     </>
   );
 };
