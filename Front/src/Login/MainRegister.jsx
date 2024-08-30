@@ -65,8 +65,17 @@ const SignupForm = () => {
           <button>G+</button>
           <button>in</button>
         </div>
-        <p>or use your email for registration</p>
+        {/* <p>or use your email for registration</p> */}
         <form onSubmit={handleSubmit}>
+
+          <label>
+            Select Role
+          </label>
+          <select name="role" value={formData.role} onChange={handleChange}>
+            <option value="">Select Role</option>
+            <option value="student">Student</option>
+            <option value="teacher">Teacher</option>
+          </select>
           
           
           <input
@@ -96,11 +105,7 @@ const SignupForm = () => {
             <option value="female">Female</option>
             <option value="other">Other</option>
           </select>
-          <select name="role" value={formData.role} onChange={handleChange}>
-            <option value="">Select Role</option>
-            <option value="student">Student</option>
-            <option value="teacher">Teacher</option>
-          </select>
+          
           <button type="submit" className="sign-up-btn" >Register</button>
         </form>
       </div>

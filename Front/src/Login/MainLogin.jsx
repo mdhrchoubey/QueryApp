@@ -24,7 +24,7 @@ const Mainlogin=()=>{
             localStorage.setItem('name', email);
             // Login successful, redirect to admin dashboard
             console.log('Login successful');
-            alert("done")
+            // alert("done")
             
             navigate('/adminDash');
         } else {
@@ -73,6 +73,7 @@ const Mainlogin=()=>{
             window.localStorage.setItem("role", response.data.role)
             window.localStorage.setItem("gender", response.data.gender)
             localStorage.setItem('token', response.data.token);
+            window.localStorage.setItem("password", response.data.password)
             
           }
          
@@ -101,6 +102,13 @@ const Mainlogin=()=>{
       <p>or use your account</p>
       <form onSubmit={handleLogin}>
         <div className="form-group">
+        <label >Role</label>
+        <select name="gender" value={role.gender} onChange={(e) => setRole(e.target.value)}>
+            <option value="">Select Role</option>
+            <option value="teacher">Teacher</option>
+            <option value="student">Student</option>
+            <option value="admin">Admin</option>
+          </select>
        
           <label >Email:</label>
           <input type="text" id="email" placeholder="Enter your email"
@@ -117,12 +125,7 @@ const Mainlogin=()=>{
            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <select name="gender" value={role.gender} onChange={(e) => setRole(e.target.value)}>
-            <option value="">Select Role</option>
-            <option value="teacher">teacher</option>
-            <option value="student">student</option>
-            <option value="admin">Admin</option>
-          </select>
+        
         <a href="#"><Link style={{color:"red"}} to="/forgetpassword">Forget Password?</Link></a>
         <br/>
         <button type="submit">SIGN IN</button>

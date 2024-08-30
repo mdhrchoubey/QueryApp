@@ -6,6 +6,8 @@ import Adduser from './Adduser';
 
 import Header from './Header';
 import Footer from './Component/Footer';
+import AdminPassword from './AdminPasswordReset';
+// import ForgetPassword from './Login/ForgetPassword';
 
 const userName=window.localStorage.getItem("name");
 
@@ -14,17 +16,11 @@ const AdminDash = () => {
   const [activeTab, setActiveTab] = useState('profile');
   const [teacherList, setTeacherList]=useState([])
   const [displayTeacher, setDisplayTeacher]=useState([]);
-  const[taskData,setTaskData]=useState([]); 
+  // const[taskData,setTaskData]=useState([]); 
   const [refresh, setRefresh] = useState(false);
 
 
-  const navigate = useNavigate();
 
-
-  const Logout=()=>{
-    window.localStorage.clear();
-    navigate("/")
-  }
 
   const Display=()=>{
     let url="http://localhost:8080/user/displayStudent";
@@ -64,15 +60,6 @@ const [query, setQuery]=useState([]);
         displayQuery();
       }, []);
 
-      const handleToggleStatus = async (id, status) => {
-        try {
-          const newStatus = status === 'pending' ? 'completed': 'pending';
-          const updatedTodo = await axios.put(`http://localhost:8080/query/Display/${id}`, { status: newStatus });
-          setTaskData(taskData.map(todo => (todo._id === id ? updatedTodo.data : todo)));
-        } catch (error) {
-          console.error(error);
-        }
-      };
 
       const handleClick = () => {
         setRefresh(!refresh);
@@ -81,6 +68,41 @@ const [query, setQuery]=useState([]);
       useEffect(() => {
         displayQuery();
       }, [refresh]);
+
+      const reset=()=>{
+        
+      }
+
+      const PopupWindow = ({ trigger, content, title }) => {
+        const [isOpen, setIsOpen] = useState(false);
+      
+        const togglePopup = () => setIsOpen(!isOpen);
+      
+        return (
+          <>
+            {React.cloneElement(trigger, { onClick: togglePopup })}
+            
+            {isOpen && (
+              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div className="bg-white rounded-lg shadow-lg w-11/12 md:max-w-md mx-auto">
+                  <div className="border-b px-4 py-2 flex items-center justify-between">
+                    <h3 className="font-semibold text-lg">{title}</h3>
+                    {/* <button onClick={togglePopup} className="text-black close-btn"> */}
+                      {/* <X size={24} /> */}
+                    {/* </button> */}
+                  </div>
+                  <div className="p-4">
+                    {content}
+                  </div>
+                </div>
+              </div>
+            )}
+          </>
+        );
+      };
+
+
+
 
   return (
     <>
@@ -95,20 +117,20 @@ const [query, setQuery]=useState([]);
               onClick={() => setActiveTab('profile')}
             >
               <i className="icon profile-icon">👤</i>
-              <span>Profile</span>
+              <span>Teacher List</span>
             </li>
             <li 
               className={activeTab === 'results' ? 'active' : ''}
               onClick={() => setActiveTab('results')}
             >
-              <i className="icon results-icon">📊</i>
-              <span>Results</span>
+              <i className="icon results-icon"></i>
+              <span>Student List</span>
             </li>
             <li 
               className={activeTab === 'Query' ? 'active' : ''}
               onClick={() => setActiveTab('Query')}
             >
-              <i className="icon query-icon">📊</i>
+              <i className="icon query-icon"></i>
               <span>Query</span>
             </li>
            
@@ -116,7 +138,7 @@ const [query, setQuery]=useState([]);
               className={activeTab === 'adduser' ? 'active' : ''}
               onClick={() => setActiveTab('adduser')}
             >
-              <i className="icon query-icon">📊</i>
+              <i className="icon query-icon"></i>
               <span>Adduser</span>
             </li>
             {/* <li 
@@ -135,45 +157,23 @@ const [query, setQuery]=useState([]);
       <main className="main-content">
         {activeTab === 'profile' && (
           <div className="profile-content">
-            <h2 style={{textAlign:"center", color:"red"}}>School Summery</h2>
+            <h2 style={{textAlign:"center", color:"red"}}>Teacher List</h2>
             <hr/>
             {/* Add profile content here */}
             {/* {userName} */}
-           <div> <h2 style={{textAlign:"center"}}>
-           Student List
-           </h2>
-            <table>
-                <thead>
-                    <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Gender</th>
-                    <th>Role</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {teacherList.map((key)=>(
-                        <tr key={key.id}>
-                            <td>{key.name}</td>
-                            <td>{key.email}</td>
-                            <td>{key.gender}</td>
-                            <td>{key.role}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-           </div>
-            <hr/>
-            <div><h2 style={{textAlign:"center"}}>
+          
+            {/* <hr/> */}
+            <div>
+              {/* <h2 style={{textAlign:"center"}}>
             Teacher List
-            </h2>
+            </h2> */}
             <table>
                 <thead>
                     <tr>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Gender</th>
-                    <th>Role</th>
+                    <th>Reset Password</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -182,7 +182,20 @@ const [query, setQuery]=useState([]);
                             <td>{key.name}</td>
                             <td>{key.email}</td>
                             <td>{key.gender}</td>
-                            <td>{key.role}</td>
+                            <td>
+                            <div className="p-4">
+      {/* <h1 className="text-2xl font-bold mb-4">Popup Window Example</h1> */}
+      <PopupWindow
+        trigger={<button className="popup">
+          Reset
+        </button>}
+        content={<AdminPassword/>}
+        // title="Example Popup"
+      />
+    </div>
+                              
+                              {/* <button onClick={reset}>Reset Password</button> */}
+                            </td>
                         </tr>
                     ))}
                 </tbody>
@@ -192,95 +205,108 @@ const [query, setQuery]=useState([]);
         )}
         {activeTab === 'results' && (
           <div className="results-content">
-            <h2>Academic Results</h2>
-            {/* Add results content here */}
+            {/* <h2>Academic Results</h2> */}
+            <div> <h2 style={{textAlign:"center", color:"red"}}>
+           Student List
+           </h2>
+           <hr/>
+            <table>
+                <thead>
+                    <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Gender</th>
+                    <th>Reset Password</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {teacherList.map((key)=>(
+                        <tr key={key.id}>
+                            <td>{key.name}</td>
+                            <td>{key.email}</td>
+                            <td>{key.gender}</td>
+                            <td>
+                            <PopupWindow
+        trigger={<button className="popup">
+          Reset
+        </button>}
+        content={<AdminPassword/>}
+        // title="Example Popup"
+      />
+                              
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+           </div>
           </div>
         )}
-        {activeTab === 'Query' && (
-          <div className="Query-content">
-            <div style={{display:'flex', justifyContent:"space-around", width:"48%"}} >
-            <h2>Query_Update</h2>
-            <h4 ><td className="table-cell">
-          <button onClick={handleClick} className="refresh-button">
-            Refresh
-          </button>
-        </td></h4>
-            </div>
-            <table className="table">
-  <thead>
-    <tr>
-      <th className="table-header">Message</th>
-      <th className="table-header">Sender</th>
-      {/* <th className="table-header">Receiver</th> */}
-      <th className="table-header">Rply</th>
-      <th className="table-header">Pending/Completed</th>
-      <th className="table-header">Status</th>
-      {/* <th className="table-header">Refresh</th> */}
-    </tr>
-  </thead>
-  <tbody>
-    {query.map((key) => (
-      <tr key={key._id} className="table-row">
-        <td className="table-cell">{key.message}</td>
-        <td className="table-cell">{key.sender}</td>
-        {/* <td className="table-cell">{key.receiver}</td> */}
-        <td className="table-cell">
-          <button className="reply-button">Reply</button>
-        </td>
+        {activeTab === 'Query' && (<>
 
-        {key.status === "pending" && (
-          <td className="table-cell">
-            <a>
-              <div
-                className="status pending"
-                style={{ color: "orangered", fontWeight: "600" }}
-              >
-                {key.status}
-              </div>
-            </a>
-          </td>
-        )}
-        {key.status === "completed" && (
-          <td className="table-cell">
-            <a>
-              <div
-                className="status completed"
-                style={{ color: "#4CBB17" }}
-              >
-                {key.status}
-              </div>
-            </a>
-          </td>
-        )}
-        <td className="table-cell">
-          <button
-            onClick={() => handleToggleStatus(key._id, key.status)}
-            className="status-button"
-            style={{ "--clr": "#00ad54" }}
-          >
-            <span className="button-decor"></span>
-            <div className="button-content">
-              <div className="button__icon">
-                <i
-                  className="fa-regular fa-circle-check"
-                  style={{ color: "#ffffff" }}
-                ></i>
-              </div>
-              <span className="button__text">Status</span>
-            </div>
-          </button>
-        </td>
+<div className="Query_Update" >
+<div style={{display:'flex', justifyContent:"space-around", width:"48%"}} >
+<h2>Query_Update</h2>
+<h4 ><td className="table-cell" style={{border:"none"}}>
+<button onClick={handleClick} className="refresh-button">
+Refresh
+</button>
+</td></h4>
+</div>
 
-        {/* <td className="table-cell">
-          <button onClick={handleClick} className="refresh-button">
-            Refresh
-          </button>
-        </td> */}
-      </tr>
-    ))}
-  </tbody>
+<hr/>
+
+
+
+<table className="table">
+<thead>
+<tr>
+<th className="table-header">Message</th>
+<th className="table-header">Sender</th>
+
+<th className="table-header">Pending/Completed</th>
+
+</tr>
+</thead>
+<tbody>
+{query.map((key) => (
+<tr key={key._id} className="table-row">
+<td className="table-cell">{key.message}</td>
+<td className="table-cell">{key.sender}</td>
+
+{key.status === "pending" && (
+<td className="table-cell">
+<a>
+<div
+className="status pending"
+style={{ color: "orangered", fontWeight: "600" }}
+>
+{key.status}
+</div>
+</a>
+</td>
+)}
+{key.status === "completed" && (
+<td className="table-cell">
+<a>
+<div
+className="status completed"
+style={{ color: "#4CBB17" }}
+>
+{key.status}
+</div>
+</a>
+</td>
+)}
+
+
+</tr>
+))}
+</tbody>
 </table>
-          </div>
+
+</div>
+</>
           
         )}
         {activeTab === 'adduser' && (

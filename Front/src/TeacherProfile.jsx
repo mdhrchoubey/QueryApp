@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ForgetPassword from './Login/ForgetPassword';
+import ChangePasswordForm from './Component/ChangePassword';
 
 
 const TeacherProfile = () => {
@@ -125,7 +126,8 @@ const TeacherProfile = () => {
         </button>
       </form>
 <hr/>
-<ForgetPassword/>
+{/* <ForgetPassword/> */}
+{/* <ChangePasswordForm/> */}
 
 
     </div>
@@ -137,3 +139,23 @@ export default TeacherProfile;
 
 
 
+
+
+// const handleReplySubmit = async (id, status) => {
+
+//   try {
+//     const newStatus = status === 'pending' ? 'completed': 'pending';
+//     const replyData = {
+//       queryId: selectedQuery._id,
+//       reply: replyText,
+//     };
+//     console.log(replyData)
+//     const response = await axios.put("http://localhost:8080/query/reply", replyData, );
+    // setTaskData(taskData.map(statusQuery=>(statusQuery.replyData.queryId? response.data.status : statusQuery)))
+//     console.log(response.data);
+//     setReplyModal(false);
+//     setReplyText("");
+//     displayQuery();
+//   } catch (error) {
+//     console.error(error);
+//   }

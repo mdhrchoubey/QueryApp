@@ -14,7 +14,7 @@ router.get("/displayQuery",queryControl.displayQuery)
 router.put('/display/:id', queryControl.statusdisplay);
 
 //Rply
-router.post('/reply', queryControl.reply);
+router.put('/reply', queryControl.reply);
 
 
 module.exports = router;

@@ -6,6 +6,7 @@ import Header from '../Header';
 import TeacherProfile from '../TeacherProfile';
 import TeacherHeader from '../TeacherHeader';
 import Footer from './Footer';
+import ChangePasswordForm from './ChangePassword';
 
 const userName=window.localStorage.getItem("name");
 
@@ -29,27 +30,34 @@ const handleReply = (query) => {
 const handleReplySubmit = async (id, status) => {
 
   try {
+    const newStatus = status === 'pending' ? 'completed': 'pending';
     const replyData = {
       queryId: selectedQuery._id,
       reply: replyText,
+      status: newStatus
     };
     console.log(replyData)
-    const response = await axios.post("http://localhost:8080/query/reply", replyData);
+    const response = await axios.put("http://localhost:8080/query/reply", replyData,);
+    if(response.data.status===true){
+      setTaskData(taskData.map(statusQuery=>(statusQuery.replyData.queryId? response.data.status : statusQuery)))
+    }
+   
     
     console.log(response.data);
+    
     setReplyModal(false);
     setReplyText("");
     displayQuery();
   } catch (error) {
     console.error(error);
   }
-  try {
-        const newStatus = status === 'pending' ? 'completed': 'pending';
-        const updatedTodo = await axios.put(`http://localhost:8080/query/Display/${id}`, { status: newStatus });
-        setTaskData(taskData.map(todo => (todo._id === id ? updatedTodo.data : todo)));
-      } catch (error) {
-        console.error(error);
-      }
+  // try {
+        
+  //       const updatedTodo = await axios.put(`http://localhost:8080/query/Display/${id}`, { status: newStatus });
+  //       setTaskData(taskData.map(todo => (todo._id === id ? updatedTodo.data : todo)));
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
 };
 
 
@@ -98,6 +106,10 @@ const [query, setQuery]=useState([]);
       }, [refresh]);
 
 
+
+
+      
+
   return (
     <>
     <TeacherHeader/>
@@ -117,19 +129,24 @@ const [query, setQuery]=useState([]);
               className={activeTab === 'results' ? 'active' : ''}
               onClick={() => setActiveTab('results')}
             >
-              <i className="icon results-icon">📊</i>
+              <i className="icon results-icon"></i>
               <span>Results</span>
             </li>
             <li 
               className={activeTab === 'Query' ? 'active' : ''}
               onClick={() => setActiveTab('Query')}
             >
-              <i className="icon query-icon">📊</i>
+              <i className="icon query-icon"></i>
               <span>Query</span>
             </li>
-            <li>
-            {/* <button onClick={Logout}>Logout</button> */}
+            <li 
+              className={activeTab === 'changePassword' ? 'active' : ''}
+              onClick={() => setActiveTab('changePassword')}
+            >
+              <i className="icon query-icon"></i>
+              <span>Change Password</span>
             </li>
+            
           </ul>
         </nav>
       </sidebar>
@@ -150,9 +167,9 @@ const [query, setQuery]=useState([]);
         {activeTab === 'Query' && (
           <div className="Query-content">
             <div style={{display:'flex', justifyContent:"space-around", width:"48%"}} >
-            <h2>Query_Update</h2>
-            <h4 ><td className="table-cell">
-          <button onClick={handleClick} className="refresh-button">
+            <h2>Query Update</h2>
+            <h4 ><td className="table-cell" style={{border:"none", }}>
+          <button onClick={handleClick} style={{marginLeft:"60px",marginBottom:"10px"}}  className="refresh-button">
             Refresh
           </button>
         </td></h4>
@@ -162,7 +179,7 @@ const [query, setQuery]=useState([]);
     <tr>
       <th className="table-header">Message</th>
       <th className="table-header">Sender</th>
-      {/* <th className="table-header">Receiver</th> */}
+      <th className="table-header">Ans</th>
       <th className="table-header">Rply</th>
       <th className="table-header">Pending/Completed</th>
       {/* <th className="table-header">Status</th> */}
@@ -174,7 +191,7 @@ const [query, setQuery]=useState([]);
       <tr key={key._id} className="table-row">
         <td className="table-cell">{key.message}</td>
         <td className="table-cell">{key.sender}</td>
-        {/* <td className="table-cell">{key.receiver}</td> */}
+        <td className="table-cell">{key.reply}</td>
         <td className="table-cell">
   <button className="reply-button" onClick={() => handleReply(key,key._id, key.status)}>
     Reply
@@ -247,7 +264,15 @@ const [query, setQuery]=useState([]);
       Submit Reply
     </button>
   </div>
+)}{activeTab === 'changePassword' && (
+  <>
+  <div className="change-password-modal">
+  <ChangePasswordForm/>
+  </div>
+  
+  </>
 )}
+
     </div>
     <Footer/>
     </>

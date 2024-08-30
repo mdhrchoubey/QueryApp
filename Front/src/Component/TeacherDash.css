@@ -53,3 +53,23 @@
       width: 100%;
     }
   }
+
+  .change-password-modal{
+    /* border: 2px solid black; */
+    display: inline;
+    justify-content: center;
+    height: fit-content;
+    position: absolute;
+    top: 40%;
+    left: 30%;
+    width: 50%;
+    text-align: center;
+  }
+  button{
+    width: 200px;
+    display: block;
+    align-content: center;
+    justify-content: center;
+    margin-left: 36%;
+    
+  }

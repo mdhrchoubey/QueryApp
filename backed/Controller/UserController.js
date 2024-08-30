@@ -67,6 +67,7 @@ const signup=async (req, res) => {
         role:user.role,
         id:user._id,
         ImagePath:user.imagePath,
+        password:user.password,
         token
       });
       // console.log({
@@ -206,6 +207,88 @@ const signup=async (req, res) => {
     }
   };
 
+
+  ////////////////////////// Change Password /////////////////////////////////
+
+
+  const Changepassword=async (req, res) => {
+    // const email=req.params;
+    const {name }=req.body;
+    const {currentPassword, newPassword}=req.body;
+    try{
+      const user=await User.findOne({name})
+      console.log(user)
+      if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+        }
+
+      const isMatch = await bcrypt.compare(currentPassword, user.password);
+      if (!isMatch) {
+        console.log({
+        message: 'Incorrect current password',
+      })
+      return res.status(401).json({ message: 'Incorrect current password' });
+      
+      
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    user.password = hashedPassword;
+
+    await user.save();
+
+    console.log({
+      message: 'Password has been changed successfully',
+    })
+
+    res.json({ message: 'Password has been changed successfully'});
+    
+
+    }
+
+    catch{
+      res.status(404).json({message:"User not found"})
+    }
+   
+  };
+
+
+        // const resetToken = crypto.randomBytes(20).toString('hex');
+        // user.resetPasswordToken = resetToken;
+        // user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+    
+        // await user.save();
+
+        // const changePassword = await User.findOne({
+          
+        //   resetToken: resetToken
+          
+        // });
+
+        // const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        // user.password = hashedPassword;
+        // user.resetPasswordToken = undefined;
+        // user.resetPasswordExpires = undefined;
+    
+        // await changePassword.save();
+    
+        // res.json({ message: 'Password has been reset successfully' });
+
+        // console.log({
+        //   message: 'Password has been reset successfully',
+        //   changePassword
+        // })
+   
+  //   }
+    
+  //   catch{
+  //     res.status(404).json({message:"User not found"})
+  //   }
+   
+  // };
+
     /////////////////  Display All User List  ////////////////////////////////////
 
   const displayAllUser= async (req, res)=>{
@@ -285,7 +368,51 @@ module.exports={
     resetPassword,
     displayAllUser,
     resetPasswordAdmin,
-    profileUpdate
+    profileUpdate,
+    Changepassword
     // picture
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+ // const { currentPassword, newPassword } = req.body;
+    
+    // In a real application, you would get the user from the session or token
+    // const user = User({email:email});
+
+    // console.log(user)
+  
+    // if (!user) {
+    //   return res.status(404).json({ message: 'User not found' });
+    // }
+  
+    // try {
+    //   // Check if the current password is correct
+    //   const isMatch = await bcrypt.compare(currentPassword, user.password);
+    //   if (!isMatch) {
+    //     return res.status(400).json({ message: 'Current password is incorrect' });
+    //   }
+  
+    //   // Hash the new password
+    //   const salt = await bcrypt.genSalt(10);
+    //   const hashedPassword = await bcrypt.hash(newPassword, salt);
+  
+    //   // Update the user's password
+    //   user.password = hashedPassword;
+  
+    //   res.json({ message: 'Password changed successfully' });
+    // } catch (error) {
+    //   console.error(error);
+    //   res.status(500).json({ message: 'Server error' });
+    // }

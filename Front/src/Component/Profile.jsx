@@ -124,7 +124,7 @@ const Profile = () => {
         </button>
       </form>
 <hr/>
-<ForgetPassword/>
+{/* <ForgetPassword/> */}
 
 
     </div>

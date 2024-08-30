@@ -96,7 +96,11 @@ router.get('/profile/:userName', async (req, res) => {
       res.status(500).json({ message: 'Server error' });
     }
   });
-  
+
+
+  // Change password 
+router.post("/changePassword", authControl.Changepassword)
+
 
 
 

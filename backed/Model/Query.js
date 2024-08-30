@@ -7,7 +7,7 @@ mongoose.userSchema = mongoose.Schema({
     sender: { type:String, required:true },
     message: { type: String, required: true },
     status: { type: String, enum: ['pending', 'completed'], default: 'pending' },
-    reply:{type:String}
+    reply:{type:String,}
 }); 
 
 

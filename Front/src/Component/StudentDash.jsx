@@ -5,6 +5,7 @@ import axios from 'axios';
 import Profile from './Profile';
 import Header from '../Header';
 import Footer from './Footer';
+import ChangePasswordForm from './ChangePassword';
 
 const userName=window.localStorage.getItem("name");
 // const image=window.localStorage.getItem("ImagePath")
@@ -102,29 +103,33 @@ useEffect(() => {
               <i className="icon profile-icon">👤</i>
               <span>Profile</span>
             </li>
-            <li 
+            {/* <li 
               className={activeTab === 'results' ? 'active' : ''}
               onClick={() => setActiveTab('results')}
             >
-              <i className="icon results-icon">📊</i>
+              <i className="icon results-icon"></i>
               <span>Results</span>
-            </li>
+            </li> */}
             <li 
               className={activeTab === 'Query' ? 'active' : ''}
               onClick={() => setActiveTab('Query')}
             >
-              <i className="icon query-icon">📊</i>
+              <i className="icon query-icon"></i>
               <span>Query</span>
             </li>
-            <li 
+            {/* <li 
               className={activeTab === 'Query_Update' ? 'active' : ''}
               onClick={() => setActiveTab('Query_Update')}
             >
-              <i className="icon query-icon">📊</i>
+              <i className="icon query-icon"></i>
               <span>Query Update</span>
-            </li>
-            <li>
-            
+            </li> */}
+            <li 
+              className={activeTab === 'ChangePassword' ? 'active' : ''}
+              onClick={() => setActiveTab('ChangePassword')}
+            >
+              <i className="icon query-icon"></i>
+              <span>Change Password</span>
             </li>
           </ul>
         </nav>
@@ -148,9 +153,19 @@ useEffect(() => {
             {/* Add results content here */}
           </div>
         )}
-        {activeTab === 'Query' && (
+        {activeTab === 'Query' && (<>
+
+          <div className="Query_Update" >
+    <div style={{display:'flex', justifyContent:"space-around", width:"48%"}} >
+    <h2>Query_Update</h2>
+    <h4 ><td className="table-cell" style={{border:"none"}}>
+  <button onClick={handleClick} className="refresh-button">
+    Refresh
+  </button>
+</td></h4>
+    </div>
           <div className="Query-content">
-            <h2>Query</h2>
+            {/* <h2>Query</h2> */}
             <section>
             <select id="Display">
              <option value="">Select a Teacher</option>
@@ -176,91 +191,66 @@ useEffect(() => {
            
 
           </div>
+          <hr/>
           
-        )}
-        {activeTab === 'Query_Update' && (
-          <div className="Query_Update">
-            <div style={{display:'flex', justifyContent:"space-around", width:"48%"}} >
-            <h2>Query_Update</h2>
-            <h4 ><td className="table-cell">
-          <button onClick={handleClick} className="refresh-button">
-            Refresh
-          </button>
-        </td></h4>
-            </div>
-            
-            
-            <table className="table">
-  <thead>
-    <tr>
-      <th className="table-header">Message</th>
-      <th className="table-header">Sender</th>
-      {/* <th className="table-header">Receiver</th> */}
-      <th className="table-header">Rply</th>
-      <th className="table-header">Pending/Completed</th>
-      <th className="table-header">Status</th>
-      {/* <th className="table-header">Refresh</th> */}
-    </tr>
-  </thead>
-  <tbody>
-    {query.map((key) => (
-      <tr key={key._id} className="table-row">
-        <td className="table-cell">{key.message}</td>
-        <td className="table-cell">{key.sender}</td>
-        {/* <td className="table-cell">{key.receiver}</td> */}
-        <td className="table-cell">
-          <button className="reply-button">Reply</button>
-        </td>
+    
+    
+    <table className="table">
+<thead>
+<tr>
+<th className="table-header">Message</th>
+<th className="table-header">Sender</th>
 
-        {key.status === "pending" && (
-          <td className="table-cell">
-            <a>
-              <div
-                className="status pending"
-                style={{ color: "orangered", fontWeight: "600" }}
-              >
-                {key.status}
-              </div>
-            </a>
-          </td>
-        )}
-        {key.status === "completed" && (
-          <td className="table-cell">
-            <a>
-              <div
-                className="status completed"
-                style={{ color: "#4CBB17" }}
-              >
-                {key.status}
-              </div>
-            </a>
-          </td>
-        )}
-        <td className="table-cell">
-          <button
-            onClick={() => handleToggleStatus(key._id, key.status)}
-            className="status-button"
-            style={{ "--clr": "#00ad54" }}
-          >
-            <span className="button-decor"></span>
-            <div className="button-content">
-              <div className="button__icon">
-                <i
-                  className="fa-regular fa-circle-check"
-                  style={{ color: "#ffffff" }}
-                ></i>
-              </div>
-              <span className="button__text">Status</span>
-            </div>
-          </button>
-        </td>
+<th className="table-header">Pending/Completed</th>
 
-        
-      </tr>
-    ))}
-  </tbody>
+</tr>
+</thead>
+<tbody>
+{query.map((key) => (
+<tr key={key._id} className="table-row">
+<td className="table-cell">{key.message}</td>
+<td className="table-cell">{key.sender}</td>
+
+{key.status === "pending" && (
+  <td className="table-cell">
+    <a>
+      <div
+        className="status pending"
+        style={{ color: "orangered", fontWeight: "600" }}
+      >
+        {key.status}
+      </div>
+    </a>
+  </td>
+)}
+{key.status === "completed" && (
+  <td className="table-cell">
+    <a>
+      <div
+        className="status completed"
+        style={{ color: "#4CBB17" }}
+      >
+        {key.status}
+      </div>
+    </a>
+  </td>
+)}
+
+
+</tr>
+))}
+</tbody>
 </table>
 
+  </div>
+          </>
+          )}
+       
+        {activeTab === 'ChangePassword' && (
+          <div className="results-content">
+            <h2>Change Password</h2>
+            <ChangePasswordForm/>
+            {/* Add results content here */}
           </div>
         )}
         
@@ -280,17 +270,6 @@ export default StudentDashboard;
 
 
 
-
-
-// const [refresh, setRefresh] = useState(false);
-
-// const handleClick = () => {
-//   setRefresh(!refresh);
-// };
-
-// useEffect(() => {
-//   displayQuery();
-// }, [refresh]);
-
-// // In your JSX, add an onClick handler to a button
-// <button onClick={handleClick}>Refresh</button>
+// {activeTab === 'Query_Update' && (
+  
+// )}
