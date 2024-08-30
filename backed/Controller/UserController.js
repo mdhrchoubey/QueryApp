@@ -70,15 +70,7 @@ const signup=async (req, res) => {
         password:user.password,
         token
       });
-      // console.log({
-      //   email: user.email,
-      //   role: user.role,
-      //   name:user.name,
-      //   gender:user.gender,
-      //   role:user.role,
-      //   id:user._id
-
-      // })
+   
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Internal Server Error' });
@@ -254,40 +246,6 @@ const signup=async (req, res) => {
   };
 
 
-        // const resetToken = crypto.randomBytes(20).toString('hex');
-        // user.resetPasswordToken = resetToken;
-        // user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
-    
-        // await user.save();
-
-        // const changePassword = await User.findOne({
-          
-        //   resetToken: resetToken
-          
-        // });
-
-        // const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-        // user.password = hashedPassword;
-        // user.resetPasswordToken = undefined;
-        // user.resetPasswordExpires = undefined;
-    
-        // await changePassword.save();
-    
-        // res.json({ message: 'Password has been reset successfully' });
-
-        // console.log({
-        //   message: 'Password has been reset successfully',
-        //   changePassword
-        // })
-   
-  //   }
-    
-  //   catch{
-  //     res.status(404).json({message:"User not found"})
-  //   }
-   
-  // };
 
     /////////////////  Display All User List  ////////////////////////////////////
 
@@ -379,40 +337,3 @@ module.exports={
 
 
 
-
-
-
-
-
-
-
- // const { currentPassword, newPassword } = req.body;
-    
-    // In a real application, you would get the user from the session or token
-    // const user = User({email:email});
-
-    // console.log(user)
-  
-    // if (!user) {
-    //   return res.status(404).json({ message: 'User not found' });
-    // }
-  
-    // try {
-    //   // Check if the current password is correct
-    //   const isMatch = await bcrypt.compare(currentPassword, user.password);
-    //   if (!isMatch) {
-    //     return res.status(400).json({ message: 'Current password is incorrect' });
-    //   }
-  
-    //   // Hash the new password
-    //   const salt = await bcrypt.genSalt(10);
-    //   const hashedPassword = await bcrypt.hash(newPassword, salt);
-  
-    //   // Update the user's password
-    //   user.password = hashedPassword;
-  
-    //   res.json({ message: 'Password changed successfully' });
-    // } catch (error) {
-    //   console.error(error);
-    //   res.status(500).json({ message: 'Server error' });
-    // }

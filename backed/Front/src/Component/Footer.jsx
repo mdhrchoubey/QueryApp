@@ -19,12 +19,7 @@ const Footer = () => {
           </div>
         </div>
         
-        {/* <div className="text-center mb-4 md:mb-0">
-          <p className="italic text-sm max-w-md">
-            "Christian believe that every human being is made in the image of God and is loved by God. 
-            'Rise in the presence of the aged, show respect for elderly and revere your God. I am the Lord'"
-          </p>
-        </div> */}
+       
         
         <div className="flex flex-col items-end">
           <div className="flex space-x-4 mb-2">
