@@ -2,23 +2,53 @@
 const express = require('express');
 const router = express.Router();
 const User=require("../Model/UserModel")
+const bcrypt = require('bcryptjs');
+
 const multer = require('multer');
 const authControl=require("../Controller/UserController")
 const path = require('path');
 
 
-
-// Set up multer for handling file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/');
+    const dir = './uploads';
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir);
+    }
+    cb(null, dir);
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+  }
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith('image/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Not an image! Please upload an image.'), false);
+    }
+  },
+  limits: {
+    fileSize: 1024 * 1024 * 5 // limit file size to 5MB
+  }
+});
+
+
+// // Set up multer for handling file uploads
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, 'uploads/');
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, Date.now() + path.extname(file.originalname));
+//   },
+// });
+
+// const upload = multer({ storage: storage });
 
 
 
@@ -51,9 +81,13 @@ router.get("/displayStudent",authControl.displayStudent)
 //Display All User
 router.get("/displayAllUser",authControl.displayAllUser)
 
-//Profile Update
-// router.put("/profileupdate/:username", authControl.profileUpdate)
+// //Profile pic
+// router.get('profile-pic/:userName', async(req, res)=>{
+//   const userName=req.body
+//   const user = await User.findOne(userName);
+  
 
+// })
 
 
 router.get('/profile/:userName', async (req, res) => {
@@ -97,9 +131,51 @@ router.get('/profile/:userName', async (req, res) => {
     }
   });
 
+  //profile pic
+  router.get('/profileheader/:userName', async (req, res) =>{
+    const userName=req.params;
+    const {role, gender}=req.body
+    // console.log(userName)
+    const user=await User({name:userName,
+      role:role,
+      gender:gender
+
+    });
+    // console.log({
+    //  userName
+    // })
+  } );
+
 
   // Change password 
 router.post("/changePassword", authControl.Changepassword)
+
+
+router.post('/reset-password', async (req, res) => {
+  const { newPassword, passid } = req.body;
+  try {
+ const user=await User.findById(passid)
+
+  if (!newPassword) {
+    return res.status(400).json({ error: 'New password is required' });
+  }
+
+  
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // In a real application, you'd update the password in your database here
+    user.password = hashedPassword;
+
+    await user.save();
+
+    console.log(hashedPassword)
+    res.json({ message: 'Password reset successfully' });
+  } catch (error) {
+    console.error('Error resetting password:', error);
+    res.status(500).json({ error: 'An error occurred while resetting the password' });
+  }
+});
 
 
 

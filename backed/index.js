@@ -4,10 +4,18 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 
+mongoose.connect("mongodb://localhost:27017/FinalTouch", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
+.then(() => console.log('MongoDB connected'))
+.catch(err => console.error(err));
+
 
 const app = express();
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors()
+);
 
 
 const userRoute=require("./Routes/UserRoute")
@@ -22,11 +30,5 @@ app.get("/", (req, res)=>{
 
 const PORT = process.env.PORT || 8080;
 
-mongoose.connect("mongodb://localhost:27017/FinalTouch", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
-.then(() => console.log('MongoDB connected'))
-.catch(err => console.error(err));
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
